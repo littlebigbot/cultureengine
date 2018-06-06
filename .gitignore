@@ -1,0 +1,9 @@
+npm-debug.log
+dist
+*.map
+.DS_Store
+vendor
+node_modules
+cache
+*.cache
+.nvmrc
