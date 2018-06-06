@@ -74,11 +74,11 @@ export default {
           MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
-            // options: {
-              // importLoaders: 2
-              // modules: true,
-              // localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
-            // }
+            options: {
+              importLoaders: 2,
+              modules: true,
+              localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
+            }
           },
           'postcss-loader'
         ]
