@@ -1,5 +1,5 @@
 {
-  "name": "culturlyzer",
+  "name": "culture-engine",
   "version": "1.0.0",
   "description": "analyzes pop culture (movies and t shows for now)",
   "main": "index.js",
