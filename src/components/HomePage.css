@@ -1,0 +1,33 @@
+@import '../constants';
+
+.HomePage {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.search {
+  border: 0;
+  background: $primary-text-color;
+  width: 50%;
+  margin: 0 auto;
+  display: block;
+  padding: 30px;
+  font-size: 200%;
+  color: $light-primary-color;
+  margin-top: 3vh;
+  text-align: left;
+  font-family: 'Roboto Mono';
+  position: relative;
+
+  &:focus {
+    outline: 0;
+    box-shadow: inset 6px 6px 7px #000000;
+  }
+}
+
+.tooltip {
+  display: none;
+  .search:focus + & {
+    display: block;
+  }
+}

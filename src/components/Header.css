@@ -2,17 +2,13 @@
 
 .Header {
   padding: 20px;
-  background-color: $default-primary-color;
+  background-color: $divider-color;
   display: flex;
   justify-content: space-between;
-  height: 10vh;
-  min-height: 70px;
+  display: none;
 
   h1 {
-    font-weight: 400;
-    color: white;
     margin: 0;
-    flex: 1;
   }
 
   nav {

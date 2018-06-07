@@ -1,9 +1,14 @@
 @import './constants';
 
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Roboto Mono';
+}
+
 :global {
   * {
     font-size: 100%;
-    font-family: 'Catamaran', Helvetica, sans-serif;
+    font-family: 'Roboto Mono', Helvetica, sans-serif;
     font-weight: 100;
   }
 

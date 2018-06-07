@@ -1,8 +1,5 @@
-import { reduce, isUndefined, includes } from 'lodash';
-import env from './env';
-
-const API_ROOT = env.api;
-const API_KEY = 'cfa0adf468d2103f9def27b896a6f917';
+import { reduce, isUndefined } from 'lodash';
+import { API_ROOT, API_KEY } from '~/constants';
 
 function serialize(obj) {
   return reduce(obj, (result, val, key) => {
@@ -14,10 +11,11 @@ function serialize(obj) {
 }
 
 function makeUrl(endpoint) {
-  return includes(endpoint, API_ROOT) ? endpoint : API_ROOT + endpoint;
+  console.log(API_ROOT)
+  return endpoint.includes(API_ROOT) ? endpoint : API_ROOT + endpoint;
 }
 
-function callApi(endpoint, payload) {
+function api(endpoint, payload) {
   const url = makeUrl(endpoint);
 
   return fetch(url + serialize({api_key: API_KEY, ...payload}))
@@ -34,7 +32,10 @@ function callApi(endpoint, payload) {
     })
 }
 
-// export const callSelectPerson = ({person}) => callApi(`/person/${person.id}`, {append_to_response: 'combined_credits'})
+export default api;
 
+export const apiSearch = query => query ? api('/search/multi', { query }) : Promise.reject('Nothing to search');
+// search/multi?language=en-US
+// export const callSelectPerson = ({person}) => callApi(`/person/${person.id}`, {append_to_response: 'combined_credits'})
 // export const callSearch = ({query}) => query ? callApi('/search/person', {query}) : Promise.reject('Nothing to search')
 // export const callSelectPerson = ({person}) => callApi(`/person/${person.id}/combined_credits`)

@@ -5,7 +5,10 @@
   ],
   "plugins": [
     "transform-object-rest-spread",
-    "react-css-modules"
+    "react-css-modules",
+    ["babel-plugin-relative-import", {
+      "rootPathSuffix": "src"
+    }]
   ]
 }
 

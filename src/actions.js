@@ -1,8 +1,10 @@
 import { createActionAsync } from 'redux-act-async';
 import { createAction } from 'redux-act';
-// import { callSearch, callSelectPerson } from '../api';
+import { apiSearch } from './api';
 
-// export const search = createActionAsync('SEARCH', callSearch);
+export const search = createActionAsync('SEARCH', apiSearch);
+export const updateHomePageQuery = createAction('UPDATE_HOME_PAGE_QUERY');
+
 // export const selectPerson = createActionAsync('SELECT_PERSON', callSelectPerson);
 
 // export const addPerson = createAction('ADD_PERSON');

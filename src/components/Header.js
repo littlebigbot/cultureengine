@@ -7,11 +7,11 @@ import styles from './Header.css';
 const Header = () => (
   <header styleName="styles.Header">
     <h1>
-      Movie Things?
+      CultureEngine
     </h1>
     <nav>
       <ul>
-        <NavLink activeClassName={styles.active} to="/venn">Venn</NavLink>
+        <li><a href="https://github.com/littlebigbot" target="_blank">Who is the incredibly handsome and talented person behind this?</a></li>
       </ul>
     </nav>
   </header>
