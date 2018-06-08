@@ -4,14 +4,14 @@ import path from 'path';
 import _ from 'lodash';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
+
 
 const ROOT_PATH = path.resolve(__dirname);
 const SRC_PATH = path.resolve(ROOT_PATH, 'src');
 const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 
 const IS_PROD = process.env.NODE_ENV === 'production'
-console.log('IS_PROD', IS_PROD)
-
 export default {
   // context: ROOT_PATH + '/app',
   entry: {
@@ -22,6 +22,7 @@ export default {
       path.resolve(SRC_PATH, 'index.js'),
     ]
   },
+
   output: {
     path: BUILD_PATH,
     publicPath: '/dist',
@@ -38,8 +39,14 @@ export default {
       }
     }
   },
+  devServer: {
+    // publicPath: BUILD_PATH,
+    contentBase: BUILD_PATH,
+    hot: true,
+    historyApiFallback: true,
+    headers: { 'Access-Control-Allow-Origin': '*' }
+  },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: 'style.[chunkhash].css',
       disable: false,
@@ -49,8 +56,12 @@ export default {
       inject: true,
       hash: true,
       template: path.resolve(SRC_PATH, 'index.html'),
-      filename: 'index.html'
-    })
+      filename: 'index.html',
+      alwaysWriteToDisk: true
+    }),
+    new HtmlWebpackHarddiskPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ],
   devtool: 'inline-source-map',
   module: {
@@ -59,7 +70,6 @@ export default {
         test: /\.js?$/,
         exclude: /node_modules/,
         use: [
-          // 'react-hot-loader/webpack',
           'babel-loader'
         ]
       },
@@ -70,7 +80,7 @@ export default {
       {
         test: /\.css$/,
         use: [
-          // 'css-hot-loader',
+          'css-hot-loader',
           MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',

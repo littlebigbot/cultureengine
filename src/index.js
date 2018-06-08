@@ -8,24 +8,22 @@ import Root from './components/Root'
 import rootReducer from './reducers'
 import routes from './routes';
 import createHistory from 'history/createHashHistory'
-// import { AppContainer } from 'react-hot-loader'
-// import createLogger from 'redux-logger'
+import { createLogger } from 'redux-logger'
+import { hot } from 'react-hot-loader'
 import './index.css';
 
-// const logger = createLogger();
+const logger = createLogger();
 const history = createHistory();
 const historyMiddleware = routerMiddleware(history);
 
 // export const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   connectRouter(history)(rootReducer),
-  // applyMiddleware(logger),
+  applyMiddleware(logger),
   //applyMiddleware(sagaMiddleware)
   applyMiddleware(thunk),
   applyMiddleware(historyMiddleware),
 );
-
-console.log(store);
 
 window.store = store;
 
@@ -33,3 +31,7 @@ ReactDOM.render(
   <Root store={store} history={history} routes={routes} />,
   document.getElementById('root')
 );
+
+if (module.hot) {
+  module.hot.accept();
+}
