@@ -11,6 +11,7 @@ import createHistory from 'history/createHashHistory'
 import { createLogger } from 'redux-logger'
 import { hot } from 'react-hot-loader'
 import './index.css';
+import './assets/favicon.png'
 
 const logger = createLogger();
 const history = createHistory();

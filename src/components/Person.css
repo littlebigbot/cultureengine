@@ -1,0 +1,49 @@
+@import '../constants';
+@import '../components';
+
+.Person {
+
+  header {
+    text-align: center;
+    position: relative;
+    height: 230px;
+    border-bottom: 5px solid $divider-color;
+    background: $text-primary-color;
+    margin-bottom: 150px;
+
+    h1 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -140px;
+    }
+  }
+
+  main {
+    @extend %container;
+
+    section {
+      @extend %info-detail-box;
+    }
+  }
+}
+
+
+.profile-image-wrap {
+
+  width: 150px;
+  height: @width;
+  border: 5px solid $divider-color;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 0 auto;
+  bottom: -75px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-@left);
+
+  img {
+    width: 100%;
+  }
+
+}

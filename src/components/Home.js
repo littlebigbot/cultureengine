@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { search, updateHomePageQuery } from '~/actions'
+import { searchMulti, updateHomeQuery } from '~/actions'
 import { debounce, isEmpty } from 'lodash';
 import SearchResults from './SearchResults';
-import './HomePage.css';
+import './Home.css';
 
-class HomePage extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
 
-    this.search = query => query.length ? this.props.search(query).catch(console.log) : () => {}
+    this.search = query => query.length ? this.props.searchMulti(query).catch(console.log) : () => {}
     this.debounceSearch = debounce(this.search, 3000)
   }
   handleKeyPress(e) {
@@ -19,16 +19,16 @@ class HomePage extends Component {
     }
   }
   handleChange(e) {
-    const { query, updateHomePageQuery } = this.props;
+    const { query, updateHomeQuery } = this.props;
     const newQuery = e.target.value;
     if(query !== newQuery) {
-      updateHomePageQuery(newQuery)
+      updateHomeQuery(newQuery)
       this.debounceSearch(newQuery)
     }
   }
   render() {
     const { query, searchResults } = this.props;
-    return <div styleName="HomePage">
+    return <div styleName="Home">
       <h1>C U L T U R E  E N G I N E</h1>
       <input
         type="search"
@@ -48,9 +48,9 @@ class HomePage extends Component {
   }
 }
 
-HomePage = connect(state => state, {
-  search,
-  updateHomePageQuery
-})(HomePage)
+Home = connect(state => state, {
+  searchMulti,
+  updateHomeQuery
+})(Home)
 
-export default HomePage;
+export default Home;

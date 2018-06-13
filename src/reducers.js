@@ -1,6 +1,6 @@
 import { createReducerAsync } from 'redux-act-async';
 import { createReducer } from 'redux-act';
-import { search, updateHomePageQuery } from './actions';
+import { searchMulti, updateHomeQuery, getPerson, getPersonCredits } from './actions';
 import { combineReducers } from 'redux'
 import _ from 'lodash';
 // import colorHash from 'material-color-hash';
@@ -66,33 +66,66 @@ const searchResults = createReducer({
   //     data: state.data.updateAtIndex(index, {})
   //   };
   // },
-  // [search.request]: (state, payload) => ({
-  //     ...state,
-  //     request: payload,
-  //     loading: true,
-  //     error: null
-  // }),
-  [updateHomePageQuery]: (state, query) => {
+  [updateHomeQuery]: (state, query) => {
     console.log(state, query)
     return {
       ...state,
       query
     };
   },
-  [search.ok]: (state, payload) =>
+  [searchMulti.request]: (state, payload) => ({
+      ...state,
+      request: payload,
+      loading: true,
+      error: null
+  }),
+  [searchMulti.ok]: (state, payload) =>
   ({
       ...state,
       loading: false,
       //payload.request[0] instead of payload.request because redux-act-async isnt perfectly designed
       response: payload.response
   }),
-  [search.error]: (state, payload) => ({
+  [searchMulti.error]: (state, payload) => ({
       ...state,
       loading: false,
       error: payload.error
   }),
-  [search.reset]: () => (defaultSearchResultsState)
+  [searchMulti.reset]: () => (defaultSearchResultsState)
 } , defaultSearchResultsState);
+
+const person = createReducer({
+  [getPerson.request]: (state, payload) => ({
+    ...state,
+    loading: true,
+    error: null,
+    data: {}
+  }),
+  [getPerson.ok]: (state, payload) => ({
+    ...state,
+    loading: false,
+    data: payload.response
+  }),
+  [getPerson.error]: (state, payload) => ({
+    ...state,
+    error: payload.error
+  }),
+  [getPersonCredits.request]: (state, payload) => ({
+    ...state,
+    loading: true,
+    error: null,
+    credits: []
+  }),
+  [getPersonCredits.ok]: (state, payload) => ({
+    ...state,
+    loading: false,
+    credits: payload.response
+  }),
+  [getPersonCredits.error]: (state, payload) => ({
+    ...state,
+    error: payload.error
+  })
+}, { ...defaultAsyncState, credits: []});
 
 // const people = createReducer({
 //   [selectPerson.request]: (state, payload) => state.updateAtIndex(
@@ -147,6 +180,7 @@ const searchResults = createReducer({
 const rootReducer = combineReducers({
   // routing,
   searchResults,
+  person
   // people
 })
 

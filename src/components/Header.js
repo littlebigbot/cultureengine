@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import _ from 'lodash';
-import routes from '../routes';
-import styles from './Header.css';
+import './Header.css';
 
 const Header = () => (
-  <header styleName="styles.Header">
+  <header styleName="Header">
     <h1>
       CultureEngine
     </h1>

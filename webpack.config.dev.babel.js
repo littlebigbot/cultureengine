@@ -5,46 +5,32 @@ import _ from 'lodash';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin';
-
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 
 const ROOT_PATH = path.resolve(__dirname);
 const SRC_PATH = path.resolve(ROOT_PATH, 'src');
 const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 
-const IS_PROD = process.env.NODE_ENV === 'production'
 export default {
-  // context: ROOT_PATH + '/app',
+  mode: 'development',
   entry: {
     main: [
       'babel-polyfill',
-      // 'react-hot-loader/patch',
-      // 'webpack-hot-middleware/client',
       path.resolve(SRC_PATH, 'index.js'),
     ]
   },
-
   output: {
     path: BUILD_PATH,
     publicPath: '/dist',
     filename: '[name].[hash].js'
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendors: {
-          test: /node_modules/,
-          enforce: true
-        }
-      }
-    }
-  },
   devServer: {
-    // publicPath: BUILD_PATH,
     contentBase: BUILD_PATH,
     hot: true,
     historyApiFallback: true,
-    headers: { 'Access-Control-Allow-Origin': '*' }
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -57,11 +43,14 @@ export default {
       hash: true,
       template: path.resolve(SRC_PATH, 'index.html'),
       filename: 'index.html',
-      alwaysWriteToDisk: true
+      alwaysWriteToDisk: true,
+      title: 'ＣＵＬＴＵＲＥ　ＥＮＧＩＮＥ',
+      favicon: 'src/assets/favicon.png'
     }),
     new HtmlWebpackHarddiskPlugin(),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new CleanWebpackPlugin([BUILD_PATH])
   ],
   devtool: 'inline-source-map',
   module: {
@@ -73,15 +62,23 @@ export default {
           'babel-loader'
         ]
       },
-      // {
-      //   test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*$|$)/,
-      //   use: 'file-loader'
-      // },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*$|$)/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'assets/[name].[ext]'
+            }
+          }
+        ]
+      },
       {
         test: /\.css$/,
         use: [
-          'css-hot-loader',
+          // 'css-hot-loader',
           MiniCssExtractPlugin.loader,
+          // 'style-loader',
           {
             loader: 'css-loader',
             options: {

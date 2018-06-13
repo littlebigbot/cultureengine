@@ -11,26 +11,30 @@ class SearchResults extends Component {
   }
   _renderPerson(person){
     return (
-      <li styleName="result" key={person.id} onClick={() => this.props.onSelect(p)}>
-        <Link to="/person/{{media.id}}">
+      <li styleName="result" key={person.id}>
+        <Link to={`/person/${person.id}`}>
           <div styleName="thumbnail-wrap">
             <img src={tmdbThumbnailSrc(person, 185)} />
             <p>{person.media_type}</p>
           </div>
-          {person.name}
+          <h4>{person.name}</h4>
+          <ul>
+            <li key="known-for">Known For:</li>
+            {person.known_for.map(m => <li key={`known-for-${m.id}`} >{m.title}</li>)}
+          </ul>
         </Link>
       </li>
     )
   }
   _renderMedia(media){
     return (
-      <li styleName="result" key={media.id} onClick={() => this.props.onSelect(p)}>
-        <Link to="/{{media.media_type}}/{{media.id}}">
+      <li styleName="result" key={media.media_type + media.id}>
+        <Link to={`/${media.media_type}/${media.id}`}>
           <div styleName="thumbnail-wrap">
             <img src={tmdbThumbnailSrc(media, 185)} />
             <p>{media.media_type}</p>
           </div>
-          {media.original_name || media.original_title}
+          <h4>{media.name || media.title}</h4>
           </Link>
       </li>
     )
