@@ -29,7 +29,11 @@ function tmdbApi(endpoint, payload) {
 }
 
 function wikipediaApi(payload) {
-  return api(WIKIPEDIA_API_ROOT + serialize(payload));
+  return api(WIKIPEDIA_API_ROOT + serialize({
+    origin: '*',
+    format: 'json',
+    ...payload
+  }));
 }
 
 export const apiSearch = query => query ? tmdbApi('/search/multi', { query }) : Promise.reject('Nothing to search');

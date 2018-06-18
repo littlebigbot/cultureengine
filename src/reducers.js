@@ -1,6 +1,6 @@
 // import { createReducerAsync } from 'redux-act-async';
 import { createReducer } from 'redux-act';
-import { searchMulti, updateHomeQuery, getPerson, getPersonCredits } from './actions';
+import { searchMulti, updateHomeQuery, getPerson, getPersonCredits, getWikipediaPage } from './actions';
 import { combineReducers } from 'redux'
 import _ from 'lodash';
 import moment from 'moment';
@@ -153,8 +153,23 @@ const person = createReducer({
   [getPersonCredits.error]: (state, payload) => ({
     ...state,
     error: payload.error
+  }),
+  [getWikipediaPage.request]: (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+    wiki: null
+  }),
+  [getWikipediaPage.ok]: (state, payload) => ({
+    ...state,
+    loading: false,
+    wiki: payload.response.parse
+  }),
+  [getWikipediaPage.error]: (state, payload) => ({
+    ...state,
+    error: payload.error
   })
-}, { ...defaultAsyncState, credits: [], birthday: moment(), deathday: moment().add(100, 'years')});
+}, { ...defaultAsyncState, credits: [], birthday: moment(), deathday: moment().add(100, 'years'), wiki: null});
 
 // const people = createReducer({
 //   [selectPerson.request]: (state, payload) => state.updateAtIndex(

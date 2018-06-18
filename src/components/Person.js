@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getPerson, getPersonCredits } from '~/actions'
+import { getPerson, getPersonCredits, getWikipediaPage } from '~/actions'
 import { connect } from 'react-redux';
 import { tmdbThumbnailSrc } from '~/utility';
 import './Person.css'
@@ -13,8 +13,11 @@ import { faChartBar, faCircle } from "@fortawesome/fontawesome-pro-light";
 class Person extends Component {
   constructor(props) {
     super(props);
-    const { getPerson, match, getPersonCredits } = this.props;
+    const { getPerson, match, getPersonCredits, getWikipediaPage } = this.props;
     getPerson(match.params.id)
+      .then(() => {
+        getWikipediaPage(this.props.person.data.name)
+      })
     getPersonCredits(match.params.id)
 
     this.renderCredits = this.renderCredits.bind(this);
@@ -31,7 +34,8 @@ class Person extends Component {
     </div>
   }
   render() {
-    const { data, credits } = this.props.person;
+    const { data, credits, wiki } = this.props.person;
+    console.log(wiki && wiki.text)
     if(!isEmpty(data) && !isEmpty(credits)) {
       return <div styleName="Person">
         <header>
@@ -63,6 +67,10 @@ class Person extends Component {
             <h1>Age at release date</h1>
             {credits.cast.map(this.renderCredits)}
           </section>
+          <section>
+            <h1>Wiki</h1>
+            {wiki && <div dangerouslySetInnerHTML={{__html: wiki.text['*']}}/>}
+          </section>
         </main>
       </div>
     } else {
@@ -75,13 +83,15 @@ class Person extends Component {
 Person.propTypes = {
   getPerson: PropTypes.func,
   getPersonCredits: PropTypes.func,
+  getWikipediaPage: PropTypes.func,
   match: PropTypes.object,
   person: PropTypes.object
 }
 
 Person = connect(state => state, {
   getPerson,
-  getPersonCredits
+  getPersonCredits,
+  getWikipediaPage
 })(Person)
 
 export default Person
