@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './SearchResults.css'
+import PropTypes from 'prop-types';
 import { tmdbThumbnailSrc } from '~/utility';
 import { Link } from 'react-router-dom';
 
@@ -35,7 +36,7 @@ class SearchResults extends Component {
             <p>{media.media_type}</p>
           </div>
           <h4>{media.name || media.title}</h4>
-          </Link>
+        </Link>
       </li>
     )
   }
@@ -45,6 +46,10 @@ class SearchResults extends Component {
       {results && results.map(result => (result.media_type === 'person') ? this._renderPerson(result) : this._renderMedia(result))}
     </ul>;
   }
+}
+
+SearchResults.propTypes = {
+  results: PropTypes.array.isRequired
 }
 
 export default SearchResults;

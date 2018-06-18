@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import thunk from 'redux-thunk'
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
 // import createSagaMiddleware from 'redux-saga'
 import Root from './components/Root'
@@ -9,7 +9,6 @@ import rootReducer from './reducers'
 import routes from './routes';
 import createHistory from 'history/createHashHistory'
 import { createLogger } from 'redux-logger'
-import { hot } from 'react-hot-loader'
 import './index.css';
 import './assets/favicon.png'
 

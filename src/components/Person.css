@@ -9,18 +9,22 @@
     height: 230px;
     border-bottom: 5px solid $divider-color;
     background: $text-primary-color;
-    margin-bottom: 150px;
+    margin-bottom: 80px;
 
     h1 {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      bottom: -140px;
+      top: 100%;
     }
   }
 
   main {
     @extend %container;
+
+    nav {
+      @extend %info-detail-box;
+    }
 
     section {
       @extend %info-detail-box;
@@ -32,18 +36,21 @@
 .profile-image-wrap {
 
   width: 150px;
-  height: @width;
-  border: 5px solid $divider-color;
+  height: 150px;
   overflow: hidden;
   border-radius: 50%;
   margin: 0 auto;
-  bottom: -75px;
   position: absolute;
   left: 50%;
-  transform: translateX(-@left);
+  transform: translate(-50%,-50%);
+  top: 50%;
 
   img {
     width: 100%;
   }
 
+}
+
+.posthumous {
+  background: red;
 }

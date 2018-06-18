@@ -1,28 +1,15 @@
-import { reduce, isUndefined } from 'lodash';
-import { API_ROOT, API_KEY } from '~/constants';
+import { TMDB_API_ROOT, TMDB_API_KEY, WIKIPEDIA_API_ROOT } from '~/constants';
+import { serialize, makeUrl } from '~/utility';
+// import camelize from 'camelize';
 
-function serialize(obj) {
-  return reduce(obj, (result, val, key) => {
-    if(!isUndefined(val)) {
-      return result.concat(`${result === '?' ? '' : '&'}${key}=${encodeURIComponent(val)}`);
-    }
-    return result;
-  }, '?');
-}
-
-function makeUrl(endpoint) {
-  return endpoint.includes(API_ROOT) ? endpoint : API_ROOT + endpoint;
-}
-
-function api(endpoint, payload) {
-  const url = makeUrl(endpoint);
-
-  return fetch(url + serialize({api_key: API_KEY, ...payload}))
+export const api = (url, config) => {
+  return fetch(url, config)
     .then((response) => {
       return response.json()
-      	.then((json) => {
-      		return { json, response };
-      	});
+        .then((json) => {
+          // return { camelize(json), response };
+          return { json, response }
+        });
     }).then(({ json, response }) => {
       if (response.ok) {
         return Promise.resolve(json)
@@ -31,12 +18,24 @@ function api(endpoint, payload) {
     })
 }
 
-export default api;
+function tmdbApi(endpoint, payload) {
+  const url = makeUrl(TMDB_API_ROOT, endpoint);
+  const query = {
+    api_key: TMDB_API_KEY,
+    language: 'en-US',
+    ...payload
+  };
+  return api(url + serialize(query))
+}
 
-export const apiSearch = query => query ? api('/search/multi', { query }) : Promise.reject('Nothing to search');
-export const apiPerson = id => id ? api(`/person/${id}`) : Promise.reject('id is required');
-export const apiPersonCredits = id => id ? api(`/person/${id}/credits`) : Promise.reject('id is required');
-// search/multi?language=en-US
+function wikipediaApi(payload) {
+  return api(WIKIPEDIA_API_ROOT + serialize(payload));
+}
+
+export const apiSearch = query => query ? tmdbApi('/search/multi', { query }) : Promise.reject('Nothing to search');
+export const apiPerson = id => id ? tmdbApi(`/person/${id}`) : Promise.reject('id is required');
+export const apiPersonCredits = id => id ? tmdbApi(`/person/${id}/credits`) : Promise.reject('id is required');
+export const apiWikipediaPage = name => name ? wikipediaApi({ action: 'parse', page: name }) : Promise.reject('name is required');
 // export const callSelectPerson = ({person}) => callApi(`/person/${person.id}`, {append_to_response: 'combined_credits'})
 // export const callSearch = ({query}) => query ? callApi('/search/person', {query}) : Promise.reject('Nothing to search')
 // export const callSelectPerson = ({person}) => callApi(`/person/${person.id}/combined_credits`)

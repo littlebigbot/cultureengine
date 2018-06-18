@@ -3,13 +3,10 @@
 %info-detail-box {
   background: $dark-primary-color;
   padding: 20px;
-  width: 50%;
+  color: white;
 }
 
 %container {
-  width: 900px;
-  max-width: 90%;
+  lost-center: 850px;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
 }

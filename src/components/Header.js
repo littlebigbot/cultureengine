@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import _ from 'lodash';
+import React from 'react';
 import './Header.css';
 
 const Header = () => (

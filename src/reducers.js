@@ -1,9 +1,31 @@
-import { createReducerAsync } from 'redux-act-async';
+// import { createReducerAsync } from 'redux-act-async';
 import { createReducer } from 'redux-act';
 import { searchMulti, updateHomeQuery, getPerson, getPersonCredits } from './actions';
 import { combineReducers } from 'redux'
 import _ from 'lodash';
+import moment from 'moment';
 // import colorHash from 'material-color-hash';
+
+const sortDatesFn = (a,b) => {
+  var dateA = a.release_date
+  var dateB = b.release_date
+  if(!dateA && !dateB) {
+    return 0;
+  }
+  if(!dateA) {
+    return -1;
+  }
+  if(!dateB) {
+    return 1;
+  }
+  if(dateA > dateB) {
+    return 1;
+  }
+  if(dateA < dateB) {
+    return -1
+  }
+  return 0;
+}
 
 const defaultAsyncState = {
   loading: false,
@@ -74,43 +96,47 @@ const searchResults = createReducer({
     };
   },
   [searchMulti.request]: (state, payload) => ({
-      ...state,
-      request: payload,
-      loading: true,
-      error: null
+    ...state,
+    request: payload,
+    loading: true,
+    error: null
   }),
   [searchMulti.ok]: (state, payload) =>
-  ({
+    ({
       ...state,
       loading: false,
       //payload.request[0] instead of payload.request because redux-act-async isnt perfectly designed
       response: payload.response
-  }),
+    }),
   [searchMulti.error]: (state, payload) => ({
-      ...state,
-      loading: false,
-      error: payload.error
+    ...state,
+    loading: false,
+    error: payload.error
   }),
   [searchMulti.reset]: () => (defaultSearchResultsState)
 } , defaultSearchResultsState);
 
 const person = createReducer({
-  [getPerson.request]: (state, payload) => ({
+  [getPerson.request]: (state) => ({
     ...state,
     loading: true,
     error: null,
-    data: {}
+    data: {},
+    birthday: moment(),
+    deathday: moment().add(100, 'years')
   }),
   [getPerson.ok]: (state, payload) => ({
     ...state,
     loading: false,
-    data: payload.response
+    data: payload.response,
+    birthday: moment(payload.response.birthday, 'YYYY-MM-DD'),
+    deathday: payload.response.deathday ? moment(payload.response.deathday, 'YYYY-MM-DD') : moment().add(100, 'years')
   }),
   [getPerson.error]: (state, payload) => ({
     ...state,
     error: payload.error
   }),
-  [getPersonCredits.request]: (state, payload) => ({
+  [getPersonCredits.request]: (state) => ({
     ...state,
     loading: true,
     error: null,
@@ -119,13 +145,16 @@ const person = createReducer({
   [getPersonCredits.ok]: (state, payload) => ({
     ...state,
     loading: false,
-    credits: payload.response
+    credits: {
+      cast: payload.response.cast.sort(sortDatesFn),
+      crew: payload.response.crew.sort(sortDatesFn)
+    }
   }),
   [getPersonCredits.error]: (state, payload) => ({
     ...state,
     error: payload.error
   })
-}, { ...defaultAsyncState, credits: []});
+}, { ...defaultAsyncState, credits: [], birthday: moment(), deathday: moment().add(100, 'years')});
 
 // const people = createReducer({
 //   [selectPerson.request]: (state, payload) => state.updateAtIndex(

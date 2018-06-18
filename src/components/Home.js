@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { searchMulti, updateHomeQuery } from '~/actions'
-import { debounce, isEmpty } from 'lodash';
+import { debounce } from 'lodash';
 import SearchResults from './SearchResults';
+import PropTypes from 'prop-types';
 import './Home.css';
 
 class Home extends Component {
@@ -48,9 +49,17 @@ class Home extends Component {
   }
 }
 
+Home.propTypes = {
+  searchMulti: PropTypes.func,
+  query: PropTypes.string,
+  updateHomeQuery: PropTypes.func,
+  searchResults: PropTypes.object
+}
+
 Home = connect(state => state, {
   searchMulti,
   updateHomeQuery
 })(Home)
+
 
 export default Home;

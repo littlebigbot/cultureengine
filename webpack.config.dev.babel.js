@@ -19,7 +19,7 @@ export default {
       path.resolve(SRC_PATH, 'index.js'),
     ]
   },
-  output: {
+  output: {
     path: BUILD_PATH,
     publicPath: '/dist',
     filename: '[name].[hash].js'
@@ -53,13 +53,19 @@ export default {
     new CleanWebpackPlugin([BUILD_PATH])
   ],
   devtool: 'inline-source-map',
-  module: {
-    rules: [
+  module: {
+    rules: [
       {
         test: /\.js?$/,
         exclude: /node_modules/,
         use: [
-          'babel-loader'
+          'babel-loader',
+          {
+            loader: 'eslint-loader',
+            options: {
+              fix: true
+            }
+          }
         ]
       },
       {
@@ -91,5 +97,5 @@ export default {
         ]
       }
     ]
-  }
+  }
 };
