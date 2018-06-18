@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { getPerson, getPersonCredits, getWikipediaPage } from '~/actions'
 import { connect } from 'react-redux';
-import { tmdbThumbnailSrc } from '~/utility';
+import { tmdbThumbnailSrc, vaporwave } from '~/utility';
 import './Person.css'
 import { isEmpty } from 'lodash';
 import moment from 'moment';
@@ -9,14 +9,18 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChartBar, faCircle } from "@fortawesome/fontawesome-pro-light";
+import { TITLE_PREFIX } from '~/constants';
 
 class Person extends Component {
   constructor(props) {
     super(props);
     const { getPerson, match, getPersonCredits, getWikipediaPage } = this.props;
+    document.title = TITLE_PREFIX
     getPerson(match.params.id)
       .then(() => {
-        getWikipediaPage(this.props.person.data.name)
+        const name = this.props.person.data.name
+        getWikipediaPage(name)
+        document.title = `${TITLE_PREFIX} - ${vaporwave(name)}` 
       })
     getPersonCredits(match.params.id)
 

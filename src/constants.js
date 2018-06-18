@@ -5,3 +5,5 @@ export const TMDB_API_ROOT = 'http://api.themoviedb.org/3';
 export const TMDB_API_KEY = 'cfa0adf468d2103f9def27b896a6f917';
 
 export const WIKIPEDIA_API_ROOT = 'https://en.wikipedia.org/w/api.php';
+
+export const TITLE_PREFIX = 'ＣＵＬＴＵＲＥ　ＥＮＧＩＮＥ';

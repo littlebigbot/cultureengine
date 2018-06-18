@@ -4,6 +4,7 @@ import { searchMulti, updateHomeQuery } from '~/actions'
 import { debounce } from 'lodash';
 import SearchResults from './SearchResults';
 import PropTypes from 'prop-types';
+import { TITLE_PREFIX } from '~/constants';
 import './Home.css';
 
 class Home extends Component {
@@ -12,6 +13,7 @@ class Home extends Component {
 
     this.search = query => query.length ? this.props.searchMulti(query).catch(console.log) : () => {}
     this.debounceSearch = debounce(this.search, 3000)
+    document.title = TITLE_PREFIX;
   }
   handleKeyPress(e) {
     if (e.key === 'Enter') {
