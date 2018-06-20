@@ -48,8 +48,7 @@ class Person extends Component {
           </div>
 
           <h1>{data.name}</h1>
-        </header>
-        <main>
+          
           <nav>
             <ul>
               <li>
@@ -67,6 +66,8 @@ class Person extends Component {
               </li>
             </ul>
           </nav>
+        </header>
+        <main>
           <section>
             <h1>Age at release date</h1>
             {credits.cast.map(this.renderCredits)}

@@ -4,9 +4,14 @@
   background: $dark-primary-color;
   padding: 20px;
   color: white;
+  width: calc(50% - 20px);
 }
 
 %container {
   lost-center: 850px;
   margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px;
 }

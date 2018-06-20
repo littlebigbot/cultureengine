@@ -37,7 +37,7 @@ const defaultAsyncState = {
 const defaultSearchResultsState = {
   query: '',
   ...defaultAsyncState,
-  response: []
+  results: []
 };
 
 // const defaultPersonState = () => ({
@@ -106,7 +106,7 @@ const searchResults = createReducer({
       ...state,
       loading: false,
       //payload.request[0] instead of payload.request because redux-act-async isnt perfectly designed
-      response: payload.response
+      results: payload.response.results
     }),
   [searchMulti.error]: (state, payload) => ({
     ...state,

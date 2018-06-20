@@ -45,7 +45,7 @@ class Home extends Component {
       />
       <div styleName="tooltip">Search for things</div>
       <SearchResults
-        results={searchResults.response.results}
+        results={searchResults.results}
       />
     </div>
   }

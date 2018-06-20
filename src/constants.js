@@ -7,3 +7,6 @@ export const TMDB_API_KEY = 'cfa0adf468d2103f9def27b896a6f917';
 export const WIKIPEDIA_API_ROOT = 'https://en.wikipedia.org/w/api.php';
 
 export const TITLE_PREFIX = 'ＣＵＬＴＵＲＥ　ＥＮＧＩＮＥ';
+
+export const OMDB_API_ROOT = 'http://www.omdbapi.com';
+export const OMDB_API_KEY = '99c37215';

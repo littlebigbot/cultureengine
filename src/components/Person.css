@@ -22,13 +22,16 @@
   main {
     @extend %container;
 
-    nav {
-      @extend %info-detail-box;
-    }
-
     section {
       @extend %info-detail-box;
     }
+  }
+
+  nav {
+    width: 65%;
+    margin: 0 auto;
+    top: 100%;
+    position: relative;
   }
 }
 

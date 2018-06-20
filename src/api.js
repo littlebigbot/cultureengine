@@ -1,4 +1,4 @@
-import { TMDB_API_ROOT, TMDB_API_KEY, WIKIPEDIA_API_ROOT } from '~/constants';
+import { TMDB_API_ROOT, TMDB_API_KEY, WIKIPEDIA_API_ROOT, OMDB_API_ROOT, OMDB_API_KEY } from '~/constants';
 import { serialize, makeUrl } from '~/utility';
 // import camelize from 'camelize';
 
@@ -36,10 +36,19 @@ function wikipediaApi(payload) {
   }));
 }
 
+function omdbApi(payload) {
+  return api(OMDB_API_ROOT + serialize({
+    apikey: OMDB_API_KEY,
+    r: 'json',
+    ...payload
+  }));
+}
+
 export const apiSearch = query => query ? tmdbApi('/search/multi', { query }) : Promise.reject('Nothing to search');
 export const apiPerson = id => id ? tmdbApi(`/person/${id}`) : Promise.reject('id is required');
 export const apiPersonCredits = id => id ? tmdbApi(`/person/${id}/credits`) : Promise.reject('id is required');
 export const apiWikipediaPage = name => name ? wikipediaApi({ action: 'parse', page: name }) : Promise.reject('name is required');
+export const apiRatings = name => name ? omdbApi({ t: name, plot: 'short' }) : Promise.reject('name is required');
 // export const callSelectPerson = ({person}) => callApi(`/person/${person.id}`, {append_to_response: 'combined_credits'})
 // export const callSearch = ({query}) => query ? callApi('/search/person', {query}) : Promise.reject('Nothing to search')
 // export const callSelectPerson = ({person}) => callApi(`/person/${person.id}/combined_credits`)

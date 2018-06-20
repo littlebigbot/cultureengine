@@ -7,7 +7,7 @@ import { routerMiddleware, connectRouter } from 'connected-react-router'
 import Root from './components/Root'
 import rootReducer from './reducers'
 import routes from './routes';
-import createHistory from 'history/createHashHistory'
+import createHistory from 'history/createBrowserHistory'
 import { createLogger } from 'redux-logger'
 import './index.css';
 import './assets/favicon.png'
